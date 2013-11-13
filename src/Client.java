@@ -6,6 +6,8 @@
  * To change this template use File | Settings | File Templates.
  */
 
+import java.net.InetAddress;
+import java.net.UnknownHostException;
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
@@ -16,13 +18,16 @@ public class Client {
         String serverAdress = "localhost";
         try {
             Registry registry = LocateRegistry.getRegistry(serverAdress, 8080);
+            String url ="rmi://"+ InetAddress.getLocalHost().getHostAddress()+"testRMI";
             RemoteEcho echo = (RemoteEcho) registry.lookup("echo");
             System.out.println("Connection OK to " + serverAdress);
             String s = echo.Hello() + "\n" + echo.Echo("All your base are belong to us");
-                System.out.println(s);
+            System.out.println(s);
         } catch (RemoteException e) {
             e.printStackTrace();
         } catch (NotBoundException e) {
+            e.printStackTrace();
+        } catch (UnknownHostException e) {
             e.printStackTrace();
         }
     }
