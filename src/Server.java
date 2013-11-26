@@ -6,6 +6,8 @@
  * To change this template use File | Settings | File Templates.
  */
 
+import java.net.InetAddress;
+import java.net.UnknownHostException;
 import java.rmi.AccessException;
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
@@ -14,15 +16,17 @@ import java.rmi.registry.Registry;
 public class Server {
     public static void main(String[] args) {
         try {
-            Registry registry = LocateRegistry.createRegistry(8080);
-            RemoteEchoImpl echo;
-            echo = new RemoteEchoImpl();
-            String rebindName = "echo Ahoy!";
-            registry.rebind(rebindName, echo);
-            System.out.println("Object Echo BLABLA");
-        } catch (AccessException e) {
-            e.printStackTrace();
+            Registry registry = LocateRegistry.createRegistry(9000);
+            RemoteEchoImpl remoteEchoImpl = new RemoteEchoImpl();
+            String url = "rmi://" + InetAddress.getLocalHost().getHostAddress() + "/TestRMI";
+            System.out.println("Enregistrement de l'objet avec l'url : " + url);
+            registry.rebind(url, remoteEchoImpl);
+
+            System.out.println("Serveur lancé");
+            System.out.println(remoteEchoImpl.hello());
         } catch (RemoteException e) {
+            e.printStackTrace();
+        } catch (UnknownHostException e) {
             e.printStackTrace();
         }
     }

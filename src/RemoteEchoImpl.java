@@ -16,11 +16,11 @@ public class RemoteEchoImpl extends UnicastRemoteObject implements RemoteEcho {
         super();
     }
 
-    public String Hello() throws RemoteException {
+    public String hello() throws RemoteException {
         return "Ahoy";
     }
 
-    public String Echo(String s) throws RemoteException {
+    public String echo(String s) throws RemoteException {
         return "le message est " + s + "Fom me";
     }
 
